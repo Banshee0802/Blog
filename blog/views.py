@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Post
+
 
 def get_post_list(request):
     posts = Post.objects.all() # Импорт всех постов из бд и сохранение в переменной
@@ -7,3 +8,12 @@ def get_post_list(request):
 # если написать -created_at, то будет сортировка в обратном порядке
 
     return render(request, 'python/post_list.html', context={'posts': posts})
+
+
+def get_post_detail(request, id):
+    # post = Post.objects.get(id=id)
+    post = get_object_or_404(Post, id=id)
+
+    context = {'post': post}
+
+    return render(request, 'python/post_detail.html', context)
