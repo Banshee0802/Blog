@@ -23,8 +23,25 @@ def create_post(request):
         return render(request, 'python/post_add.html')
     
     if request.method == 'POST':
+        title = request.POST.get('title').strip()
+        content = request.POST.get('content').strip()
 
-        post = Post.objects.create(title=request.POST.get('title'), content=request.POST.get('content'))
+        errors = {}
 
-        return redirect('get_post_detail', id=post.id)
+        if not title:
+            errors['title'] = 'Заголовок обязателен'
+        if not content:
+            errors['content'] = 'Текст поста обязателен'
+
+        if not errors:
+            post = Post.objects.create(title='title', content='content')
+
+            return redirect('get_post_detail', id=post.id)
+        else:
+            context = {'errors': errors,
+                       'title': title,
+                       'content': content
+            }
+            return render(request, 'python/post_add.html', context=context)
+    
     
