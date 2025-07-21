@@ -20,10 +20,13 @@ def get_post_detail(request, id):
 
 
 def create_post(request):
+    title = "Создать пост"
+    submit_button_text = 'Создать'
+
     if request.method == 'GET':
         form = PostForm()
 
-        return render(request, 'python/post_add.html', context={'form': form})
+        return render(request, 'python/post_form.html', context={'form': form, 'title': title, 'submit_button_text': submit_button_text})
     
     if request.method == 'POST':
         form = PostForm(request.POST)
@@ -33,4 +36,35 @@ def create_post(request):
 
             return redirect('get_post_detail', id=post.id)
         else:
-            return render(request, 'python/post_add.html', context={'form': form})
+            return render(request, 'python/post_form.html', context={'form': form, 'title': title, 'submit_button_text': submit_button_text})
+        
+
+def update_post(request, id):
+    title = "Редактировать пост"
+    submit_button_text = 'Обновить'
+    post = get_object_or_404(Post, id=id)
+
+    if request.method == 'POST':
+        form = PostForm(request.POST, instance=post)
+
+        if form.is_valid():
+            updated_post = form.save()
+
+            return redirect('get_post_detail', id=updated_post.id)
+        else:
+            return render(request, 'python/post_form.html', context={'form': form, 'title': title, 'submit_button_text': submit_button_text})
+
+    form = PostForm(instance=post)
+    
+    return render(request, 'python/post_form.html', context={'form': form, 'title': title, 'submit_button_text': submit_button_text})
+
+
+def delete_post(request, id):
+    post = get_object_or_404(Post, id=id)
+
+    if request.method == 'POST':
+        post.delete()
+
+        return redirect('post_list')
+    
+    return render(request, 'python/confirm_post_delete.html', {'post': post})
