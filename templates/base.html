@@ -30,11 +30,24 @@
                         <li class="nav-item">
                             <a class="nav-link" href='{% url "new_post" %}'>Создать пост</a>
                         </li>
-
-                        <li class="nav-item">
+                    </ul>
+                        <ul class="navbar-nav ms-auto">
+                            {% if request.user.is_authenticated %}
+                            <li class="nav-item">
+                            <a class="nav-link disabled" href='#'>Привет, {{ request.user }}</a>
+                        </li>
+                            <li class="nav-item">
                             <a class="nav-link" href='{% url "register" %}'>Регистрация</a>
                         </li>
-                    </ul>
+                        <li class="nav-item">
+                            <a class="nav-link" href='{% url "logout" %}'>Выйти</a>
+                        </li>
+                            {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href='{% url "login" %}'>Войти</a>
+                        </li>
+                        {% endif %}
+                        </ul>
                 </div>
             </div>
         </nav>
