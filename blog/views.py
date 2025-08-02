@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Post
 from .forms import PostForm
-
+from django.contrib.auth.decorators import login_required
 
 def get_post_list(request):
     posts = Post.objects.all() # Импорт всех постов из бд и сохранение в переменной
@@ -18,7 +18,7 @@ def get_post_detail(request, id):
 
     return render(request, 'python/post_detail.html', context)
 
-
+@login_required
 def create_post(request):
     title = "Создать пост"
     submit_button_text = 'Создать'

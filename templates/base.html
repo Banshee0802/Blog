@@ -36,9 +36,6 @@
                             <li class="nav-item">
                             <a class="nav-link disabled" href='#'>Привет, {{ request.user }}</a>
                         </li>
-                            <li class="nav-item">
-                            <a class="nav-link" href='{% url "register" %}'>Регистрация</a>
-                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href='{% url "logout" %}'>Выйти</a>
                         </li>
@@ -46,12 +43,14 @@
                         <li class="nav-item">
                             <a class="nav-link" href='{% url "login" %}'>Войти</a>
                         </li>
+                            <li class="nav-item">
+                            <a class="nav-link" href='{% url "register" %}'>Регистрация</a>
+                        </li>
                         {% endif %}
                         </ul>
                 </div>
             </div>
         </nav>
-
     </header>
     <main>{% block content %}{% endblock content %}</main>
     <footer>&copy;Все права защищены 2025</footer>
