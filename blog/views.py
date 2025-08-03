@@ -32,7 +32,11 @@ def create_post(request):
         form = PostForm(request.POST)
 
         if form.is_valid():
-            post = form.save()
+            post = form.save(commit=False)
+
+            post.author = request.user
+
+            post.save()
 
             return redirect('get_post_detail', id=post.id)
         else:
@@ -68,3 +72,7 @@ def delete_post(request, id):
         return redirect('post_list')
     
     return render(request, 'python/confirm_post_delete.html', {'post': post})
+
+
+def main_page_view(request):
+    return render(request, 'python/main_page.html')

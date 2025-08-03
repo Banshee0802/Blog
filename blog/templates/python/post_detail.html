@@ -10,7 +10,11 @@
     <p>{{ post.content }}</p>
     <p>{{ post.created_at }}</p>
 
+    <p>Автор поста {{ post.author }}</p>
+
+    {% if request.user == post.author %}
     <a href='{% url "edit_post" post.id %}'>Редактировать</a>
     <a href='{% url "remove_post" post.id %}'>Удалить пост</a>
+    {% endif %}
 {% endblock content %}
 
