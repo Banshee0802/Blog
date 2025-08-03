@@ -1,0 +1,5 @@
+<div class='post-container' style='border: 1px solid black; margin-bottom: 10px; padding: 15px;'>
+            <h2>Заголовок поста: <a href='{% url "get_post_detail" post.id %}'>{{ post.title }}</a></h2>   {# конструкция переменных для отображения постов #}
+            <p>Текст поста: {{ post.content }}</p>
+            <small>Дата создания: {{ post.created_at|date:"d.m.y" }}</small>
+</div>
