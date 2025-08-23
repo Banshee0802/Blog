@@ -15,6 +15,6 @@ class Post(models.Model):
         db_table = 'blog_posts'
 
     def __str__(self):   # функция для отображения названия поста
-        return self.title 
+        return self.title
     
 
