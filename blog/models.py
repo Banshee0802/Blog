@@ -19,6 +19,7 @@ class Post(models.Model):
     content = models.TextField(verbose_name='Текст')
     image = models.ImageField(upload_to='post_images/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True) # автоматический счет времени
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата последнего изменения')
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
     status = models.CharField(choices=STATUS_CHOICES, default='draft', verbose_name='Статус')
 
@@ -32,13 +33,23 @@ class Post(models.Model):
     
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(unidecode(self.title))
-
+        # Генерируем slug из title если его нет
+        if not self.slug:
+            base_slug = slugify(unidecode(self.title))
+            self.slug = base_slug
+            
+            # Делаем slug уникальным
+            counter = 1
+            while Post.objects.filter(slug=self.slug).exclude(id=self.id).exists():
+                self.slug = f"{base_slug}-{counter}"
+                counter += 1
+        
+        # Сохраняем объект
         super().save(*args, **kwargs)
 
 
     def get_absolute_url(self):
-        return reverse('get_post_detail', args=[self.slug])
+        return reverse('get_post_detail',kwargs={'post_slug': self.slug})
 
 
 class Category(models.Model):
