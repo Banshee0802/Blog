@@ -1,10 +1,15 @@
-<h1>Посты с тегом #{{ tag.name }}</h1>
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Посты с тегом: {{ tag.name }}</h1>
+
+<ul>
 {% for post in posts %}
-    <article>
-        <h2><a href="{% url 'get_post_detail' post.slug %}">{{ post.title }}</a></h2>
-        <p>{{ post.content|truncatewords:30 }}</p>
-        <p>Опубликовано: {{ post.created_at|date:"d.m.Y" }}</p>
-    </article>
+    <li>
+        <a href="{% url 'get_post_detail' post_slug=post.slug %}">{{ post.title }}</a>
+    </li>
 {% empty %}
-    <p>Постов с этим тегом пока нет</p>
+    <li>Постов с этим тегом нет.</li>
 {% endfor %}
+</ul>
+{% endblock %}

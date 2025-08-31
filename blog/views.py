@@ -27,12 +27,11 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     form_class = PostForm
     template_name = 'python/post_form.html'
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = "Создать пост"
-        context['submit_button_text'] = 'Создать'
-        return context
+    extra_context = {
+        'title':"Создать пост",
+        'submit_button_text':'Создать'
+    }
+
     
     def form_valid(self, form):
         post = form.save(commit=False)
@@ -135,17 +134,18 @@ class CategoryListView(ListView):
     context_object_name = 'categories'
 
 class PostsByTagView(ListView):
-    template_name = 'blog/posts_by_tag.html'
+    template_name = 'python/posts_by_tag.html'  # теперь соответствует другим шаблонам
     context_object_name = 'posts'
-    
+
     def get_queryset(self):
         self.tag = get_object_or_404(Tag, slug=self.kwargs['tag_slug'])
         return Post.objects.filter(tags=self.tag, status='published')
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['tag'] = self.tag
         return context
+
 
 class TagListView(ListView):
     model = Tag
