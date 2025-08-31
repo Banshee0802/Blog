@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Категории постов{% endblock %}
+
+{% block content %}
+    <h1>Категории постов</h1>
+    
+    {% if categories %}
+        <ul>
+            {% for category in categories %}
+                <li>
+                    <a href="{% url 'posts_by_category' category.slug %}">
+                        {{ category.name }} 
+                        ({{ category.posts.count }} постов)
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Категорий пока нет</p>
+    {% endif %}
+    
+    <a href="{% url 'post_list' %}">← Назад к всем постам</a>
+{% endblock %}

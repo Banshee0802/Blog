@@ -1,0 +1,11 @@
+<h1>Все теги</h1>
+<ul>
+{% for tag in tags %}
+    <li>
+        <a href="{% url 'posts_by_tag' tag.slug %}">#{{ tag.name }}</a>
+        ({{ tag.posts.count }} постов)
+    </li>
+{% empty %}
+    <li>Тегов пока нет</li>
+{% endfor %}
+</ul>

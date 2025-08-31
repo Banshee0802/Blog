@@ -13,7 +13,9 @@
     {% if posts %}      {# конструкция тегов для проверки наличия постов #}
         <h2>Собственно сам список</h2>
         {% for post in posts %}    {# вывод постов через цикл #}
+        {% if user == request.user or post.status != "draft" %}
         {% include 'python/includes/post_container_include.html' %}
+        {% endif %}
         {% endfor %}
     {% else %}
         <p>Постов ещё нет</p>

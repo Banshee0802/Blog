@@ -11,4 +11,5 @@ pillow==11.3.0
 requests==2.32.4
 sqlparse==0.5.3
 tzdata==2025.2
+Unidecode==1.4.0
 urllib3==2.5.0

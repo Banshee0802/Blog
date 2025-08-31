@@ -5,23 +5,43 @@
 {% block content %}
     <a href='{% url "post_list" %}'>&larr;Назад</a>
     <h1 class='text-center'>Детали поста</h1>
+    <div class='my-3 mx-3'>
     <h2>Идентификатор поста: {{ post.id }}</h2>
+    
     <p>{{ post.title }}</p>
 
-        {% if post.image.url %}
-    <img src='{{ post.image.url }}'> alt='Картинка поста'
+    {% if request.user == post.author %}
+    Статус: {{ post.get_status_display }}
+    {% endif %}
+
+        {% if post.image %}
+    <img src='{{ post.image.url }}' alt='Картинка поста'>
         {% endif %}
-        
+
     <p>{{ post.content }}</p>
     <p>{{ post.created_at }}</p>
 
+    <p>Категория: 
+    <a href="{% url 'posts_by_category' post.category.slug %}">
+        {{ post.category.name }}
+    </a>
+</p>
 
+<div class="tags">
+    Теги: 
+    {% for tag in post.tags.all %}
+        <a href="{% url 'posts_by_tag' tag.slug %}" class="tag">#{{ tag.name }}</a>
+    {% empty %}
+        <span>Тегов нет</span>
+    {% endfor %}
+</div>
 
     <p>Автор поста <a href='{% url "profile" user_username=post.author.username %}'>{{ post.author }}</a></p>
 
     {% if request.user == post.author %}
-    <a href='{% url "edit_post" post.id %}'>Редактировать</a>
-    <a href='{% url "remove_post" post.id %}'>Удалить пост</a>
+    <a href='{% url "edit_post" post.slug %}'>Редактировать</a>
+    <a href='{% url "remove_post" post.slug %}'>Удалить пост</a>
     {% endif %}
+</div>
 {% endblock content %}
 
